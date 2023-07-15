@@ -1,0 +1,40 @@
+{
+  "name": "region-data",
+  "version": "1.0.0",
+  "description": "爬取省市区数据，生成多种格式的文件",
+  "type": "module",
+  "main": "dist/region.cjs",
+  "module": "dist/region.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/region.mjs",
+      "require": "./dist/region.cjs"
+    },
+    "./*": "./*"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "fs-extra": "^11.1.1",
+    "inquirer": "^9.2.7",
+    "ora": "^6.3.1",
+    "progress": "^2.0.3"
+  },
+  "files": [
+    "dist/"
+  ],
+  "keywords": [
+    "省市区",
+    "区域",
+    "数据",
+    "region",
+    "area",
+    "data"
+  ],
+  "repository": "sutras/region-data",
+  "license": "MIT",
+  "author": "sutras",
+  "homepage": "https://github.com/sutras/region-data"
+}
