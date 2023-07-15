@@ -7,5 +7,5 @@ export const CONST_DIST_PATH = resolve(CONST_CWD, 'dist')
 export const CONST_TEMP_FILE = resolve(CONST_CWD, 'temp/region.json')
 export const CONST_REGION_TEMPLATE_FILE = resolve(
   CONST_CWD,
-  'src/templates/region',
+  'src/templates/region.ejs',
 )

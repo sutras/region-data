@@ -1,6 +1,6 @@
-const provinces = {}
-const cities = {}
-const counties = {}
+const provinces = <%- provinces %>
+const cities = <%- cities %>
+const counties = <%- counties %>
 
 let regions = null
 
@@ -9,24 +9,24 @@ function getRegionData() {
     const map = {}
     const data = Object.keys(provinces).map((code) => {
       const node = {
-        code,
+        code: Number(code),
         name: provinces[code],
       }
       return (map[code] = node)
     })
 
-    function findFather(list, sliceEnd) {
+    function findFather(list, sliceEnd, pCodeLen) {
       Object.keys(list).forEach((code) => {
         const node = {
-          code,
+          code: Number(code),
           name: list[code],
         }
         map[code] = node
 
-        const parentCode = code.slice(0, sliceEnd).padEnd(12, '0')
+        const parentCode = code.slice(0, sliceEnd).padEnd(pCodeLen, '0')
         const parentNode = map[parentCode]
         if (parentNode) {
-          const children = parentNode.children
+          let children = parentNode.children
           if (!children) {
             children = parentNode.children = []
           }
@@ -35,8 +35,8 @@ function getRegionData() {
       })
     }
 
-    findFather(cities, 2)
-    findFather(counties, 4)
+    findFather(cities, 2, 6)
+    findFather(counties, 4, 6)
 
     regions = data
   }
@@ -44,4 +44,10 @@ function getRegionData() {
   return regions
 }
 
+<% if (module === 'module') { -%>
 export { getRegionData }
+<% } else {-%>
+exports = {
+  getRegionData,
+}
+<% } -%>

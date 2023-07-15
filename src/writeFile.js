@@ -2,21 +2,18 @@ import fs from 'node:fs'
 import fse from 'fs-extra'
 import path from 'node:path'
 import ora from 'ora'
+import ejs from 'ejs'
 import { CONST_DIST_PATH, CONST_REGION_TEMPLATE_FILE } from './const.js'
 
 function write(fileName, data) {
   return new Promise((resolve, reject) => {
-    fse.outputFile(
-      path.resolve(CONST_DIST_PATH, fileName),
-      JSON.stringify(data),
-      (err) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve()
-        }
-      },
-    )
+    fse.outputFile(path.resolve(CONST_DIST_PATH, fileName), data, (err) => {
+      if (err) {
+        reject(err)
+      } else {
+        resolve()
+      }
+    })
   })
 }
 
@@ -104,7 +101,7 @@ const strategies = [
         childrenKey: 'children',
       })
 
-      return write('nested.json', data)
+      return write('nested.json', JSON.stringify(data))
     },
   },
 
@@ -118,7 +115,7 @@ const strategies = [
         childrenKey: 'i',
       })
 
-      return write('nested-abbr.json', data)
+      return write('nested-abbr.json', JSON.stringify(data))
     },
   },
 
@@ -132,7 +129,7 @@ const strategies = [
           code: item.code,
         }
       })
-      return write('flat.json', data)
+      return write('flat.json', JSON.stringify(data))
     },
   },
 
@@ -146,7 +143,7 @@ const strategies = [
           c: item.code,
         }
       })
-      return write('flat-abbr.json', data)
+      return write('flat-abbr.json', JSON.stringify(data))
     },
   },
 
@@ -158,7 +155,7 @@ const strategies = [
       data.forEach((item) => {
         map[item.code] = item.name
       })
-      return write('map.json', map)
+      return write('map.json', JSON.stringify(map))
     },
   },
 
@@ -167,7 +164,7 @@ const strategies = [
     valid: false,
     write(data) {
       const map = arrayToHierarchic(data)
-      return write('hierarchic.json', map)
+      return write('hierarchic.json', JSON.stringify(map))
     },
   },
 
@@ -177,27 +174,22 @@ const strategies = [
     async write(data) {
       const map = arrayToHierarchic(data)
 
-      const suffixes = ['mjs', 'cjs']
-      for (let suffix of suffixes) {
-        let template = fs.readFileSync(
-          `${CONST_REGION_TEMPLATE_FILE}.${suffix}`,
-          'utf-8',
-        )
-        const output = template
-          .replace(
-            /(?<=const provinces = )\{.*?\}/,
-            stringifyWithoutKeyQuote(map.provinces),
-          )
-          .replace(
-            /(?<=const cities = )\{.*?\}/,
-            stringifyWithoutKeyQuote(map.cities),
-          )
-          .replace(
-            /(?<=const counties = )\{.*?\}/,
-            stringifyWithoutKeyQuote(map.counties),
-          )
+      let template = fs.readFileSync(CONST_REGION_TEMPLATE_FILE, 'utf-8')
 
-        await write(`region.${suffix}`, output)
+      const types = [
+        ['module', 'mjs'],
+        ['commonjs', 'cjs'],
+      ]
+      for (let [module, suffix] of types) {
+        await write(
+          `region.${suffix}`,
+          ejs.render(template, {
+            module,
+            provinces: stringifyWithoutKeyQuote(map.provinces),
+            cities: stringifyWithoutKeyQuote(map.cities),
+            counties: stringifyWithoutKeyQuote(map.counties),
+          }),
+        )
       }
     },
   },
