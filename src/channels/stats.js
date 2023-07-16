@@ -75,7 +75,7 @@ export async function statsCrawling() {
 
   // 省
   const latestYear = yearData[0]
-  const yearUrl = new URL(latestYear.url, url).href
+  const yearUrl = new URL(latestYear.url, config.statsZoningUrl).href
   let provinceData = []
   if (level >= 1) {
     spinner.info('正在爬取省份数据...')
