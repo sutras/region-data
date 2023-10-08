@@ -176,13 +176,10 @@ const strategies = [
 
       let template = fs.readFileSync(CONST_REGION_TEMPLATE_FILE, 'utf-8')
 
-      const types = [
-        ['module', 'mjs'],
-        ['commonjs', 'cjs'],
-      ]
-      for (let [module, suffix] of types) {
+      const types = [['esm'], ['cjs']]
+      for (let [module] of types) {
         await write(
-          `region.${suffix}`,
+          `${module}/index.js`,
           ejs.render(template, {
             module,
             provinces: stringifyWithoutKeyQuote(map.provinces),

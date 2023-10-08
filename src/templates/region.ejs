@@ -44,10 +44,10 @@ function getRegionData() {
   return regions
 }
 
-<% if (module === 'module') { -%>
+<% if (module === 'esm') { -%>
 export { getRegionData }
 <% } else {-%>
-exports = {
+module.exports = {
   getRegionData,
 }
 <% } -%>

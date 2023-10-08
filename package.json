@@ -1,17 +1,9 @@
 {
   "name": "region-data",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "爬取省市区数据，生成多种格式的文件",
-  "type": "module",
-  "main": "dist/region.cjs",
-  "module": "dist/region.mjs",
-  "exports": {
-    ".": {
-      "import": "./dist/region.mjs",
-      "require": "./dist/region.cjs"
-    },
-    "./*": "./*"
-  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
