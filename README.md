@@ -6,6 +6,10 @@
   - [getCities()](#getcities)
   - [getCounties()](#getcounties)
   - [getRegionData()](#getregiondata)
+  - [mapProvinces](#mapprovinces)
+  - [mapCities](#mapcities)
+  - [mapCounties](#mapcounties)
+  - [mapAllArea](#mapallarea)
 - [业务流程](#业务流程)
 - [目录结构](#目录结构)
 - [数据来源](#数据来源)
@@ -71,6 +75,23 @@ const regionData = getRegionData()
 ## getRegionData()
 
 同 getCounties()。
+
+## mapProvinces
+
+省份code和name的映射对象。
+
+## mapCities
+
+城市code和name的映射对象。
+
+## mapCounties
+
+县code和name的映射对象。
+
+## mapAllArea
+
+省份+城市+县code和name的映射对象。
+
 
 # 业务流程
 

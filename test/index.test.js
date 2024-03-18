@@ -3,6 +3,10 @@ const {
   getCities,
   getCounties,
   getRegionData,
+  mapProvinces,
+  mapCities,
+  mapCounties,
+  mapAllArea,
 } = require('../dist/cjs/index.js')
 
 const provices = getProvinces()
@@ -79,5 +83,37 @@ test('counties data structure', () => {
         }
       }
     }
+  }
+})
+
+function checkMap(map) {
+  for (let code of Object.keys(map)) {
+    if (typeof map[code] !== 'string') {
+      return false
+    }
+  }
+  return true
+}
+
+test('map', () => {
+  if (!checkMap(mapProvinces)) {
+    throw new Error('数据结构不正确')
+  }
+  if (!checkMap(mapCities)) {
+    throw new Error('数据结构不正确')
+  }
+  if (!checkMap(mapCounties)) {
+    throw new Error('数据结构不正确')
+  }
+  if (!checkMap(mapAllArea)) {
+    throw new Error('数据结构不正确')
+  }
+  if (
+    Object.keys(mapProvinces).length +
+      Object.keys(mapCities).length +
+      Object.keys(mapCounties).length !==
+    Object.keys(mapAllArea).length
+  ) {
+    throw new Error('数据结构不正确')
   }
 })

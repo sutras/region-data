@@ -1,12 +1,13 @@
-const provinces = <%- provinces %>
-const cities = <%- cities %>
-const counties = <%- counties %>
+const mapProvinces = <%- provinces %>
+const mapCities = <%- cities %>
+const mapCounties = <%- counties %>
+const mapAllArea = Object.assign({}, mapProvinces, mapCities, mapCounties)
 
 function generateProvinces(map) {
-  return Object.keys(provinces).map((code) => {
+  return Object.keys(mapProvinces).map((code) => {
     const node = {
       code: Number(code),
-      name: provinces[code],
+      name: mapProvinces[code],
     }
     return (map[code] = node)
   })
@@ -41,8 +42,8 @@ function getRegionData() {
   if (!regions) {
     const map = {}
     const data = generateProvinces(map)
-    findFather(cities, 2, 6, map)
-    findFather(counties, 4, 6, map)
+    findFather(mapCities, 2, 6, map)
+    findFather(mapCounties, 4, 6, map)
     regions = data
   }
   return regions
@@ -59,7 +60,7 @@ function getCities() {
   if (!cityList) {
     const map = {}
     const data = generateProvinces(map)
-    findFather(cities, 2, 6, map)
+    findFather(mapCities, 2, 6, map)
     cityList = data
   }
   return cityList
@@ -68,7 +69,7 @@ function getCities() {
 const getCounties = getRegionData
 
 <% if (module === 'esm') { -%>
-export { getRegionData, getProvinces, getCities, getCounties }
+export { getRegionData, getProvinces, getCities, getCounties, mapProvinces, mapCities, mapCounties, mapAllArea }
 <% } else {-%>
-module.exports = { getRegionData, getProvinces, getCities, getCounties }
+module.exports = { getRegionData, getProvinces, getCities, getCounties, mapProvinces, mapCities, mapCounties, mapAllArea }
 <% } -%>
