@@ -5,7 +5,7 @@ const defaultConfig = {
 
   // 渠道
   channel: 'statsCrawling',
-  statsZoningUrl: 'http://www.stats.gov.cn/sj/tjbz/qhdm/',
+  statsZoningUrl: 'https://www.stats.gov.cn/sj/tjbz/qhdm/',
   year: 'latest',
   level: 3,
   mcaZoningUrl: 'https://www.mca.gov.cn/mzsj/xzqh/2022/202201xzqh.html',

@@ -2,52 +2,73 @@ const provinces = <%- provinces %>
 const cities = <%- cities %>
 const counties = <%- counties %>
 
+function generateProvinces(map) {
+  return Object.keys(provinces).map((code) => {
+    const node = {
+      code: Number(code),
+      name: provinces[code],
+    }
+    return (map[code] = node)
+  })
+}
+
+function findFather(list, sliceEnd, pCodeLen, map) {
+  Object.keys(list).forEach((code) => {
+    const node = {
+      code: Number(code),
+      name: list[code],
+    }
+    map[code] = node
+
+    const parentCode = code.slice(0, sliceEnd).padEnd(pCodeLen, '0')
+    const parentNode = map[parentCode]
+    if (parentNode) {
+      let children = parentNode.children
+      if (!children) {
+        children = parentNode.children = []
+      }
+      children.push(node)
+    }
+  })
+}
+
 let regions = null
+let provinceList = null
+let cityList = null
+let countyList = null
 
 function getRegionData() {
   if (!regions) {
     const map = {}
-    const data = Object.keys(provinces).map((code) => {
-      const node = {
-        code: Number(code),
-        name: provinces[code],
-      }
-      return (map[code] = node)
-    })
-
-    function findFather(list, sliceEnd, pCodeLen) {
-      Object.keys(list).forEach((code) => {
-        const node = {
-          code: Number(code),
-          name: list[code],
-        }
-        map[code] = node
-
-        const parentCode = code.slice(0, sliceEnd).padEnd(pCodeLen, '0')
-        const parentNode = map[parentCode]
-        if (parentNode) {
-          let children = parentNode.children
-          if (!children) {
-            children = parentNode.children = []
-          }
-          children.push(node)
-        }
-      })
-    }
-
-    findFather(cities, 2, 6)
-    findFather(counties, 4, 6)
-
+    const data = generateProvinces(map)
+    findFather(cities, 2, 6, map)
+    findFather(counties, 4, 6, map)
     regions = data
   }
-
   return regions
 }
 
-<% if (module === 'esm') { -%>
-export { getRegionData }
-<% } else {-%>
-module.exports = {
-  getRegionData,
+function getProvinces() {
+  if (!provinceList) {
+    provinceList = generateProvinces({})
+  }
+  return provinceList
 }
+
+function getCities() {
+  if (!cityList) {
+    const map = {}
+    const data = generateProvinces(map)
+    findFather(cities, 2, 6, map)
+    cityList = data
+  }
+  return cityList
+}
+
+const getCounties = getRegionData
+
+<% if (module === 'esm') { -%>
+export { getRegionData, getProvinces, getCities, getCounties }
+<% } else {-%>
+module.exports = { getRegionData, getProvinces, getCities, getCounties }
 <% } -%>

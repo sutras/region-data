@@ -8,7 +8,6 @@ export async function yearSpider(url) {
     retry: config.retry,
     timeout: config.timeout,
   })
-
   if (!res.ok) {
     throw CustomError(res, yearSpider)
   }

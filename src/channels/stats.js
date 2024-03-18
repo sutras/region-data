@@ -48,6 +48,9 @@ async function crawlPipe(parentNodeList, max, index = 0) {
 
   let allNodeList = []
   for (let parentNode of parentNodeList) {
+    if (!parentNode.url || /undefined/.test(parentNode.url)) {
+      continue
+    }
     let nodeList = await pipe.spider(parentNode.url)
     allNodeList = [
       ...allNodeList,
