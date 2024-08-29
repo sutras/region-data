@@ -36,7 +36,6 @@ function findFather(list, sliceEnd, pCodeLen, map) {
 let regions = null
 let provinceList = null
 let cityList = null
-let countyList = null
 
 function getRegionData() {
   if (!regions) {
@@ -68,7 +67,7 @@ function getCities() {
 
 const getCounties = getRegionData
 
-<% if (module === 'esm') { -%>
+<% if (module === 'mjs') { -%>
 export { getRegionData, getProvinces, getCities, getCounties, mapProvinces, mapCities, mapCounties, mapAllArea }
 <% } else {-%>
 module.exports = { getRegionData, getProvinces, getCities, getCounties, mapProvinces, mapCities, mapCounties, mapAllArea }
