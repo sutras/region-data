@@ -1,9 +1,9 @@
 {
   "name": "region-data",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "爬取省市区数据，生成多种格式的文件",
-  "main": "dist/index.cjs",
-  "module": "dist/index.mjs",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
   "type": "module",
   "scripts": {
     "test": "jest"
